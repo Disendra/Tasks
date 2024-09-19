@@ -1,0 +1,73 @@
+ events = [
+    {
+      "status": true,
+      "records": [
+        {
+          "slNo": 1,
+          "event_name": "expo.commercialintegrator",
+          "event_date": "2024-09-05",
+          "website_Url": "https://expo.commercialintegrator.com/",
+          "dltFeedDate": "2024-09-08",
+          "eventType": "trade_show"
+        },
+        {
+          "slNo": 2,
+          "event_name": "expo.commercialintegrator",
+          "event_date": "2024-09-06",
+          "website_Url": "https://expo.commercialintegrator.com/",
+          "dltFeedDate": "2024-09-08",
+          "eventType": "trade_show"
+        },
+ 
+
+ uniqueEventTypes: string[] = [];
+  filteredEvents: any[] = [];
+
+  ngOnInit(): void {
+    this.getUniqueEventTypes();
+  }
+
+  getUniqueEventTypes(): void {
+    const eventRecords = this.events[0].records;
+
+    const eventTypes = new Set(eventRecords.map(event => event.eventType));
+    this.uniqueEventTypes = Array.from(eventTypes);
+  }
+
+  filterByEventType(eventType: string): void {
+    const eventRecords = this.events[0].records;
+
+    this.filteredEvents = eventRecords.filter(event => event.eventType === eventType);
+  }
+  
+  
+  <div>
+  <!-- Dynamically display buttons based on unique event types -->
+  <div *ngFor="let type of uniqueEventTypes">
+    <button (click)="filterByEventType(type)">{{ type }}</button>
+  </div>
+
+  <!-- Table to display filtered events -->
+  <table *ngIf="filteredEvents.length > 0">
+    <thead>
+      <tr>
+        <th>Sl. No</th>
+        <th>Event Name</th>
+        <th>Event Date</th>
+        <th>Website URL</th>
+        <th>Event Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let event of filteredEvents">
+        <td>{{ event.slNo }}</td>
+        <td>{{ event.event_name }}</td>
+        <td>{{ event.event_date }}</td>
+        <td><a [href]="event.website_Url">{{ event.website_Url }}</a></td>
+        <td>{{ event.eventType }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+  
